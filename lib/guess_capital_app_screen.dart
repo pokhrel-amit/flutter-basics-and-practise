@@ -1,4 +1,4 @@
-
+import 'package:firstapp/about_screen.dart';
 import 'package:firstapp/countries.dart';
 import 'package:firstapp/custom_button.dart';
 import 'package:firstapp/custom_card.dart';
@@ -17,14 +17,15 @@ class GuessCapitalApp extends StatefulWidget {
 class _GuessCapitalAppState extends State<GuessCapitalApp> {
   Quiz quizeScoreCard = Quiz();
   bool showAnswer = false;
-  void handleShowAnswer(){
+  void handleShowAnswer() {
     setState(() {
       showAnswer = !showAnswer;
-      });
+    });
   }
+
   @override
   Widget build(BuildContext context) {
-      ThemeData theme = Theme.of(context);
+    ThemeData theme = Theme.of(context);
 
     return MaterialApp(
       home: Scaffold(
@@ -50,13 +51,34 @@ class _GuessCapitalAppState extends State<GuessCapitalApp> {
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ScoreCard(
-                currentScore: quizeScoreCard.currentScore,
-                totalAttempted: quizeScoreCard.totalAttempted,
-                context: context,
+              GestureDetector(
+                onTap: (() {
+                  Navigator.push(context, MaterialPageRoute(builder: ((context) => AboutScreen())));
+                }),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [
+                    Text(
+                      'About Us',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 100),
+                child: ScoreCard(
+                  currentScore: quizeScoreCard.currentScore,
+                  totalAttempted: quizeScoreCard.totalAttempted,
+                  context: context,
+                ),
               ),
               CustomCard(
                 onPress: handleShowAnswer,
@@ -110,7 +132,6 @@ class _GuessCapitalAppState extends State<GuessCapitalApp> {
       ),
     );
   }
-
 
   markAnswerWrong() {
     setState(() {
