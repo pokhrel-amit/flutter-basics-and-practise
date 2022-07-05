@@ -3,6 +3,7 @@ import 'package:firstapp/countries.dart';
 import 'package:firstapp/custom_button.dart';
 import 'package:firstapp/custom_card.dart';
 import 'package:firstapp/quiz.dart';
+import 'package:firstapp/result_screen.dart';
 import 'package:firstapp/score_card.dart';
 import 'package:firstapp/utils.dart';
 import 'package:flutter/material.dart';
@@ -55,9 +56,6 @@ class _GuessCapitalAppState extends State<GuessCapitalApp> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               GestureDetector(
-                onTap: (() {
-                  Navigator.push(context, MaterialPageRoute(builder: ((context) => AboutScreen())));
-                }),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: const [
@@ -71,13 +69,16 @@ class _GuessCapitalAppState extends State<GuessCapitalApp> {
                     ),
                   ],
                 ),
+                onTap: (() {
+                  Navigator.pushNamed(context, '/about');
+                }),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 100),
                 child: ScoreCard(
                   currentScore: quizeScoreCard.currentScore,
                   totalAttempted: quizeScoreCard.totalAttempted,
-                  context: context,
+                  // context: context,
                 ),
               ),
               CustomCard(
@@ -97,18 +98,6 @@ class _GuessCapitalAppState extends State<GuessCapitalApp> {
                   style: theme.textTheme.subtitle1,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 80),
-                child: ElevatedButton(
-                  onPressed: handleShowAnswer,
-                  child: Text(
-                    'Show ${showAnswer ? 'Question' : 'Answer'}',
-                    style: const TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -124,6 +113,25 @@ class _GuessCapitalAppState extends State<GuessCapitalApp> {
                     onPress: markAnswerWrong,
                     title: 'Wrong',
                   ),
+                ],
+              ),
+              Column(
+                children: [
+                  CustomButton(
+                      onPress: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/score',
+                          arguments: quizeScoreCard,
+                        ).then((value ) {
+                          if (value =='restart'){
+                            resetQuiz();
+                          }
+                        });
+                      },
+                      color: Colors.blue,
+                      title: 'Show Result',
+                      radius: 20),
                 ],
               )
             ],
@@ -150,6 +158,12 @@ class _GuessCapitalAppState extends State<GuessCapitalApp> {
       } else {
         showEOLAlert(context);
       }
+    });
+  }
+
+  resetQuiz(){
+    setState(() {
+      quizeScoreCard.resetQuiz();
     });
   }
 }

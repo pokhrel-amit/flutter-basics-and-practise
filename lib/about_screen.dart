@@ -10,13 +10,14 @@ class AboutScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
             title: const Text(
           'About Us',
         )),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const CustomCard(
+             const CustomCard(
               bodyWidget: Text('Hello! welcome to the about page '),
               shapeRadius: 60,
               height: 300,
@@ -26,6 +27,7 @@ class AboutScreen extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 color: Colors.blue,
+                
                 title: 'Back',
                 radius: 20),
           ],
